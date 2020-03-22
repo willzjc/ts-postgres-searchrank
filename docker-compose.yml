@@ -1,0 +1,19 @@
+# docker-compose.yml
+version: "3"
+services:
+  app:
+    build: .
+    container_name: searchranknodeapp
+    depends_on:
+      - postgres
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+
+  postgres:
+    container_name: searchrankpostgres
+    image: postgres:11.2-alpine
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "15432:5432"
