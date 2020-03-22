@@ -11,6 +11,8 @@ const client = new Client({
 
 const app = express();
 
+
+// Ping - to check if DB is alive.
 app.get("/ping", async (req, res) => {
   const database = await client.query("SELECT 1 + 1").then(() => "up").catch(() => "down");
 
@@ -21,18 +23,13 @@ app.get("/ping", async (req, res) => {
 });
 
 
-// app.get("/table", async (req, res) => {
-  // const database = await client.query("SELECT 1 + 1").then(() => "up").catch(() => "down");
-// app.use('/static', express.static('public'))
-// app.use(express.static(__dirname + '/public'));
-var path = require('path');
-// app.use(express.static(path.join(__dirname, 'static'))); //  "public" off of current is root
 app.use(express.static('public'))
 
 app.get("/getclosestusers", async (req, res) => {
 
   var user_lookup = req.query['user'];
 
+  // Counting both transfers from a user, and transfers to a user.
   var query =`SELECT username, count(*) as total_transactions FROM (
     SELECT c3.username as username
     FROM user_search_rank.transactions t
